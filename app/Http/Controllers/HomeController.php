@@ -38,6 +38,10 @@ class HomeController extends Controller
             Mail::to($admin->email)->send(new AdminEmail($details, $subject));
         }
 
-        return redirect()->back()->withSuccess('Request send Successfully');
+        if($request->expectsJson()){
+            return response()->json(['message' => 'Message sent successfully']);
+        }else{
+            return redirect()->back()->withSuccess('Request send Successfully');
+        }
     }
 }

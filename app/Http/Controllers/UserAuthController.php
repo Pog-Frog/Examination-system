@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Laravel\Sanctum\Sanctum;
 
 class UserAuthController extends Controller
 {
@@ -28,20 +28,42 @@ class UserAuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|max:12|min:8'
         ]);
-        if(Auth::attempt($request->only('email', 'password'))) {
-            return redirect('student/dashboard');
-        } else {
-            return back()->with('fail', 'Email or Password is incorrect');
+        if(!$request->expectsJson()){
+            if(Auth::attempt($request->only('email', 'password'))) {
+                return redirect('student/dashboard');
+            } else {
+                return back()->with('fail', 'Email or Password is incorrect');
+            }
+        }else{
+            if (Auth::attempt([
+                'email' => $request->email,
+                'password' => $request->password,
+            ])) {
+                $user = User::where('email', $request->email)->first();
+                return $user->createToken($user->name)->plainTextToken;
+            } else {
+                throw ValidationException::withMessages([
+                    'email' => ['The provided credentials are incorrect.'],
+                ]);
+            }
         }
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        if (!Auth::check()) {
+        if($request->expectsJson()) {
+            $model = Sanctum::$personalAccessTokenModel;
+            $accessToken = $model::findToken($request->bearerToken());
+            $accessToken->delete();
+            Auth::logout();
+            return response()->json(['message' => 'Logged out']);
+        }else{
+            if(!Auth::check()){
+                return route('student_login');
+            }
+            Auth::logout();
             return redirect()->route('student_login');
         }
-        Auth::logout();
-        return redirect()->route('student_login');
     }
 
     public function register()
@@ -75,6 +97,10 @@ class UserAuthController extends Controller
             'address' => $request->input('address'),
             'photo' => $profileImage,
         ]);
-        return redirect()->route('student_login')->withSuccess('You have Successfully registerd');
+        if($request->expectsJson()){
+            return response()->json(['message' => 'done', 'code' => 200]);
+        }else{
+            return redirect()->route('student_login')->with('success', 'You have been registered successfully');
+        }
     }
 }
