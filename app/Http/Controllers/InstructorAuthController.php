@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Email_verfication;
-use App\Models\User;
+use App\Models\Instructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -11,7 +11,7 @@ use Laravel\Sanctum\Sanctum;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 
-class UserAuthController extends Controller
+class InstructorAuthController extends Controller
 {
     public function __construct()
     {
@@ -22,7 +22,7 @@ class UserAuthController extends Controller
 
     public function login(Request $request)
     {
-        return view('user.login');
+        return view('instructor.login');
     }
 
     public function loginPost(Request $request)
@@ -32,21 +32,21 @@ class UserAuthController extends Controller
             'password' => 'required|max:12|min:8'
         ]);
         if(!$request->expectsJson()){
-            if(Auth::attempt($request->only('email', 'password'))) {
-                if (Auth::user()->email_verified_at == null) {
-                    Auth::logout();
+            if(Auth::guard('instructor')->attempt($request->only('email', 'password'))) {
+                if (Auth::guard('instructor')->user()->email_verified_at == null) {
+                    Auth::guard('instructor')->logout();
                     return back()->with('error', 'Please verify your email first');
                 }
-                return redirect('student/dashboard');
+                return redirect('instructor/dashboard');
             } else {
                 return back()->with('error', 'Email or Password is incorrect');
             }
         }else{
-            if (Auth::attempt([
+            if (Auth::guard('instructor')->attempt([
                 'email' => $request->email,
                 'password' => $request->password,
             ])) {
-                $user = User::where('email', $request->email)->first();
+                $user = Instructor::where('email', $request->email)->first();
                 if($user->email_verified_at == null){
                     return response()->json([
                         'message' => 'Please verify your email first',
@@ -67,20 +67,20 @@ class UserAuthController extends Controller
             $model = Sanctum::$personalAccessTokenModel;
             $accessToken = $model::findToken($request->bearerToken());
             $accessToken->delete();
-            Auth::logout();
+            Auth::guard('instructor')->logout();
             return response()->json(['message' => 'Logged out']);
         }else{
-            if(!Auth::check()){
-                return route('student_login');
+            if(!Auth::guard('instructor')->check()){
+                return route('instructor_login');
             }
-            Auth::logout();
-            return redirect()->route('student_login');
+            Auth::guard('instructor')->logout();
+            return redirect()->route('instructor_login');
         }
     }
 
     public function register()
     {
-        return view('user.register');
+        return view('instructor.register');
     }
 
     public function registerPost(Request $request)
@@ -97,11 +97,11 @@ class UserAuthController extends Controller
         ]);
         $profileImage = NULL;
         if ($image = $request->file('image')) {
-            $destinationPath = 'ProfilePics/students/';
+            $destinationPath = 'ProfilePics/instructors/';
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
         }
-        $user = User::create([
+        $user = Instructor::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
@@ -116,23 +116,24 @@ class UserAuthController extends Controller
         if($request->expectsJson()){
             return response()->json(['message' => 'done', 'code' => 200]);
         }else{
-            return redirect()->route('student_verify_email', ['email' => $user->email])->with('success', 'You have been registered successfully');
+            return redirect()->route('instructor_verify_email', ['email' => $user->email])->with('success', 'You have been registered successfully');
         }
     }
 
     public function forgotPassword()
     {
-        return view('user.forgot_password');
+        return view('instructor.forgot_password');
     }
 
     public function forgotPasswordPost(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email'
+            'email' => 'required|email|exists:instructors,email'
         ]);
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+
+        $status = Password::broker('instructors')->sendResetLink([
+            'email' => $request->email
+        ]);
 
         if($request->expectsJson()){
             if($status == Password::RESET_LINK_SENT){
@@ -143,6 +144,7 @@ class UserAuthController extends Controller
             }
         }else{
             if($status == Password::RESET_LINK_SENT){
+                
                 return back()->with('success', 'Reset link sent to your email');
     
             }else{
@@ -153,17 +155,17 @@ class UserAuthController extends Controller
 
     public function resetPassword($token)
     {
-        return view('user.reset_password', ['token' => $token , 'email' => request()->email]);
+        return view('instructor.reset_password', ['token' => $token , 'email' => request()->email]);
     }
 
     public function resetPasswordPost(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|email|exists:instructors,email',
             'password' => 'required|min:6',
             'password_confirmation' => 'required|same:password'
         ]);
-        $status = Password::reset(
+        $status = Password::broker('instructors')->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
@@ -181,7 +183,7 @@ class UserAuthController extends Controller
             }
         }else{
             if($status == Password::PASSWORD_RESET){
-                return redirect()->route('student_login')->with('success', 'Password reset successfully');
+                return redirect()->route('instructor_login')->with('success', 'Password reset successfully');
             }else{
                 return back()->with('error', 'Token expired');
             }
@@ -190,15 +192,15 @@ class UserAuthController extends Controller
 
     public function verifyEmail($email)
     {
-        return view('user.verify_email_notify', ['email' => $email]);
+        return view('instructor.verify_email_notify', ['email' => $email]);
     }
 
     public function resendVerificationEmail(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email'
+            'email' => 'required|email|exists:instructors,email'
         ]);
-        $user = User::where('email', $request->email)->first();
+        $user = Instructor::where('email', $request->email)->first();
         if($user){
             if($user->hasVerifiedEmail()){
                 if($request->expectsJson()){
@@ -238,16 +240,16 @@ class UserAuthController extends Controller
 
     public function verifyEmailGet($token , $email)
     {
-        return view('user.verify_email_confirm', ['email' => $email, 'token' => $token]);
+        return view('instructor.verify_email_confirm', ['email' => $email, 'token' => $token]);
     }
 
     public function verifyEmailPost(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|email|exists:instructors,email',
             'token' => 'required|string'
         ]);
-        $user = User::where('email', $request->email)->first();
+        $user = Instructor::where('email', $request->email)->first();
         $email_verfication_check = Email_verfication::where('token', '=', $request->token)->first();
         if($email_verfication_check && $user->email == $email_verfication_check->email){
             if($user->hasVerifiedEmail()){
@@ -255,7 +257,7 @@ class UserAuthController extends Controller
                     return response()->json(['message' => 'Email already verified', 'code' => 400]);
                 }
                 else{
-                    return redirect()->route('student_login')->with('error', 'Email already verified');
+                    return redirect()->route('instructor_login')->with('error', 'Email already verified');
                 }
             }
             else{
@@ -270,7 +272,7 @@ class UserAuthController extends Controller
                     return response()->json(['message' => 'done', 'code' => 200]);
                 }
                 else{
-                    return redirect()->route('student_login')->with('success', 'Email verified successfully');
+                    return redirect()->route('instructor_login')->with('success', 'Email verified successfully');
                 }
             }
         }else{

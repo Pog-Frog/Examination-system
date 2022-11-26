@@ -15,7 +15,12 @@ class HomeController extends Controller
         return view('index');
     }
 
-    public function contactUs(Request $request)
+    public function contactUs()
+    {
+        return view('contact_us');
+    }   
+
+    public function contactUsPost(Request $request)
     {
         $request->validate([
             'name' => 'required|string',
@@ -39,9 +44,9 @@ class HomeController extends Controller
         }
 
         if($request->expectsJson()){
-            return response()->json(['message' => 'Message sent successfully']);
+            return response()->json(['message' => 'Your message has been sent successfully.']);
         }else{
-            return redirect()->back()->withSuccess('Request send Successfully');
+            return redirect()->back()->withSuccess('Your message has been sent successfully');
         }
     }
 }

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Student Login')
+@section('title', 'Instructor Login')
 
 @section('content')
     <main class="page">
         <section class="clean-block clean-form dark">
             <div class="container">
                 <div class="block-heading">
-                    <h2 class="text-info">Student Signin</h2>
+                    <h2 class="text-info">Instructor Signin</h2>
                 </div>
-                <form method="POST" action="{{ Route('student_login.post') }}">
+                <form method="POST" action="{{ Route('instructor_login.post') }}">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label" for="email">Email address</label>
@@ -22,11 +22,11 @@
                         <span class="text-danger">@error('password') {{$message}} @enderror</span>
                     </div>
                     <div class="mb-3">
-                        <a href="{{ Route('student_forgot_password') }}">Forgot password ?</a>
+                        <a href="{{ Route('instructor_forgot_password') }}">Forgot password ?</a>
                     </div>
                     <div class="mb-3">
                         <div class="mb-3">
-                            <a href="{{ Route('student_register') }}">Sign up here</a>
+                            <a href="{{ Route('instructor_register') }}">Sign up here</a>
                         </div>
                     </div>
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>

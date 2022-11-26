@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\UserResetPassword;
+use App\Notifications\UserVerifyEmail;
+use App\Models\Email_verfication;
 
 class User extends Authenticatable
 {
@@ -46,4 +49,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function sendPasswordResetNotification($token){
+        $this->notify(new UserResetPassword($token));
+    }
+
+    public function sendEmailVerificationNotification(){
+        $token = $this->createToken($this->name)->plainTextToken;
+        Email_verfication::create([
+            'email' => $this->email,
+            'token' => $token,
+        ]);
+        $this->notify(new UserVerifyEmail($token, $this->email));
+    }
 }
