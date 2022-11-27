@@ -62,4 +62,10 @@ class User extends Authenticatable
         ]);
         $this->notify(new UserVerifyEmail($token, $this->email));
     }
+
+    public function getFirstname(){
+        $name = $this->name;
+        $name = explode(' ', $name);
+        return $name[0];
+    }
 }

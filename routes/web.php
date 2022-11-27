@@ -45,6 +45,12 @@ Route::prefix('student')->group(function () {
 Route::prefix('student')->group(function () {
     Route::get('/logout', [UserAuthController::class, 'logout'])->name('student_logout');
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('student_dashboard');
+    Route::prefix('/profile')->group(function () {
+        Route::get('/', [UserController::class, 'profile'])->name('student_profile');
+        Route::get('/edit', [UserController::class, 'profileEdit'])->name('student_profile.edit');
+        Route::post('/edit', [UserController::class, 'profileEditPost'])->name('student_profile.edit.post');
+    });
+    
 });
 
 
@@ -69,4 +75,9 @@ Route::prefix('instructor')->group(function () {
 Route::prefix('instructor')->group(function () {
     Route::get('/logout', [InstructorAuthController::class, 'logout'])->name('instructor_logout');
     Route::get('/dashboard', [InstructorController::class, 'dashboard'])->name('instructor_dashboard');
+    Route::prefix('/profile')->group(function () {
+        Route::get('/', [InstructorController::class, 'profile'])->name('instructor_profile');
+        Route::get('/edit', [InstructorController::class, 'profileEdit'])->name('instructor_profile.edit');
+        Route::post('/edit', [InstructorController::class, 'profileEditPost'])->name('instructor_profile.edit.post');
+    });
 });

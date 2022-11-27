@@ -61,4 +61,10 @@ class Instructor extends Authenticatable
         ]);
         $this->notify(new InstructorVerifyEmail($token, $this->email));
     }
+
+    public function getFirstname(){
+        $name = $this->name;
+        $name = explode(' ', $name);
+        return $name[0];
+    }
 }
