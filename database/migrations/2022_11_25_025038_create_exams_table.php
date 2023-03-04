@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('max_attempts');
             $table->string('duration');
             $table->string('total_mark');
+            $table->foreignId('classroom_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->references('id')->on('classrooms');
             $table->foreignId('classroom_instructor_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->references('id')->on('classroom_instructors');
             $table->string('publish_status'); // 'true', 'false'
             $table->timestamps();

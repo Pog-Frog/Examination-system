@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiUser;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,9 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //--public
 
 Route::prefix('student')->group(function () {
-    Route::post('/signup', [UserAuthController::class, 'signup'])->name('api_login');
-    Route::post('/login', [UserAuthController::class, 'login'])->name('api_login');
-    Route::get('/logout', [UserAuthController::class, 'logout'])->name('api_logout')->middleware('auth:sanctum');
+    Route::post('/login', [ApiUser::class, 'loginPost'])->name('user_login');
+    Route::post('isAuthenticated', [ApiUser::class, 'isAuthenticated'])->name('isAuthenticated')->middleware('auth:sanctum');
+    Route::get('/logout', [ApiUser::class, 'logout'])->name('user_logout')->middleware('auth:sanctum');
     Route::get('/student', function (Request $request){
         return $request->user();
     })->middleware('auth:sanctum');

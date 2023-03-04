@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="{{asset('fonts/simple-line-icons.min.css')}}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.css">
         <link rel="stylesheet" href="{{asset('css/vanilla-zoom.min.css')}}">
+        <link rel="stylesheet" href="{{asset('css/all.min.css')}}">
         <title>@yield('title')</title>
     </head>
 
@@ -41,4 +42,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js"></script>
     <script src="{{asset('js/vanilla-zoom.js')}}"></script>
     <script src="{{asset('js/theme.js')}}"></script>
+    <script src="{{asset('js/all.min.js')}}"></script>
 </html>

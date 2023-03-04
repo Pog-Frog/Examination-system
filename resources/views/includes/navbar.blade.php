@@ -3,10 +3,13 @@
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav ms-auto">
                 @auth('web')
-                    <li class="nav-item"><a class="nav-link" href="{{ Route('student_dashboard') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">My Classrooms</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ Route('student_dashboard') }}">My classrooms</a></li>
+                    @if(Request::is('student/classrooms/*') && !Request::is('student/classrooms/join') && !Request::is('student/classrooms/leave'))
+                    <li class="nav-item"><a class="nav-link" href="{{ Route('student_classroom.show', $classroom->slug) }}">{{ $classroom->name }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ Route('student_classrooms.students', $classroom->slug) }}">People</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Exams</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">My Results</a></li>
+                    @endif
                     <li class="nav-item"><a class="nav-link" href="{{ Route('student_logout') }}">Logout</a></li>
                     @if (Auth::user()->photo == null)
                         <a href="{{ Route('student_profile') }}" class="btn btn-light mr-2">{{ Auth::user()->getFirstname() }}</a>
@@ -20,9 +23,13 @@
                     @endif
                 @endauth
                 @auth('instructor')
-                    <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_dashboard') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">My Classrooms</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Question Bank</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_dashboard') }}">My classrooms</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_questions') }}">Question Bank</a></li>
+                    @if(Request::is('instructor/classrooms/*') && !Request::is('instructor/classrooms/create') && !Request::is('instructor/classrooms/*/edit'))
+                    <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_classrooms.show', $classroom->slug) }}">{{ $classroom->name }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_classrooms.students', $classroom->slug) }}">People</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_classrooms.exams', $classroom->slug) }}">Exams</a></li>
+                    @endif
                     <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_logout') }}">Logout</a></li>
                     @if (Auth::guard('instructor')->user()->photo == null)
                         <a href="{{ Route('instructor_profile') }}" class="btn btn-light mr-2">{{ Auth::guard('instructor')->user()->getFirstname() }}</a>

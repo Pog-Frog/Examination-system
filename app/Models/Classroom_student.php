@@ -24,4 +24,14 @@ class Classroom_student extends Model
     {
         return $this->belongsTo(Classroom::class);
     }
+
+    public static function getStudent($classroom_id, $student_id)
+    {
+        $student = Classroom_student::join('users', 'users.id', '=', 'classroom_students.student_id')
+            ->where('classroom_students.classroom_id', $classroom_id)
+            ->where('classroom_students.student_id', $student_id)
+            ->select('users.*', 'classroom_students.date_joined')
+            ->first();
+        return $student;
+    }
 }

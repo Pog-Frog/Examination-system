@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('text');
             $table->dateTime('date_created');
             $table->foreignId('announcement_author_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->references('id')->on('announcement_authors');
+            $table->foreignId('classroom_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->references('id')->on('classrooms');
             $table->timestamps();
         });
     }

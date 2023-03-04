@@ -23,7 +23,7 @@ return new class extends Migration
         DB::table('question_types')->insert(
             array(
                 ['type_name' => 'MCQ'],
-                ['type_name' => 'True/False'],
+                ['type_name' => 'True False'],
                 ['type_name' => 'Fill in the blanks'],
                 ['type_name' => 'Essay']
             )

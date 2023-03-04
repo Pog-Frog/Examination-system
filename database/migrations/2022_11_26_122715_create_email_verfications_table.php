@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('email_verfications', function (Blueprint $table) {
+            $table->id();
             $table->string('email')->unique();
             $table->string('token');
             $table->timestamps();

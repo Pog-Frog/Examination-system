@@ -17,7 +17,13 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
-        $schedule->command('auth:clear-resets')->everyFifteenMinutes();
+        $schedule->command('auth:clear-resets')->everyMinute()->timezone('Africa/Cairo');
+
+        $schedule->command('delete:unverified-accounts')->everyMinute()->timezone('Africa/Cairo');
+
+        $schedule->command('delete:personal-access-tokens')->everyMinute()->timezone('Africa/Cairo');
+
+        $schedule->command('delete:profile-pics')->everyMinute()->timezone('Africa/Cairo');
     }
 
     /**
@@ -27,8 +33,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
-
+        $this->load(__DIR__ . '/Commands');
         require base_path('routes/console.php');
     }
 }

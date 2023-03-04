@@ -13,11 +13,17 @@ class Announcement extends Model
         'title',
         'text',
         'date_created',
-        'announcement_author_id'
+        'announcement_author_id',
+        'classroom_id',
     ];
 
     public function announcement_author()
+    {  
+        return $this->belongsTo(Announcement_author::class)->first();
+    }
+
+    public function classroom()
     {
-        return $this->belongsTo(Announcement_author::class);
+        return $this->belongsTo(Classroom::class);
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('announcement_authors', function (Blueprint $table) {
             $table->id();
             $table->string('author_id');
-            $table->string('author_role'); // 'student' or 'instructor'
+            $table->enum('author_role', ['instructor', 'student'])->default('student');
             $table->timestamps();
         });
     }

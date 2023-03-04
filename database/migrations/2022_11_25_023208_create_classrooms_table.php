@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('code')->unique();
             $table->string('info');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

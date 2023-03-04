@@ -24,4 +24,14 @@ class Classroom_instructor extends Model
     {
         return $this->belongsTo(Classroom::class);
     }
+
+    public static function getInstructor($classroom_id, $instructor_id)
+    {
+        $instructor = Classroom_instructor::join('instructors', 'instructors.id', '=', 'classroom_instructors.instructor_id')
+            ->where('classroom_instructors.classroom_id', $classroom_id)
+            ->where('classroom_instructors.instructor_id', $instructor_id)
+            ->select('instructors.*', 'classroom_instructors.date_joined')
+            ->first();
+        return $instructor;
+    }
 }
