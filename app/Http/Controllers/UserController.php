@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Announcement;
 use App\Models\Announcement_author;
+use App\Models\Announcement_comment;
 use App\Models\Classroom;
 use App\Models\Classroom_instructor;
 use App\Models\Classroom_student;
@@ -27,6 +28,9 @@ class UserController extends Controller
             ->where('classroom_students.student_id', Auth::user()->id)
             ->select('classrooms.*')
             ->get();
+        foreach ($classrooms as $classroom) {
+            $classroom->exams_count = $classroom->getExams()->count();
+        }
         return view('user.dashboard', compact('classrooms'));
     }
 
@@ -139,10 +143,12 @@ class UserController extends Controller
                 ->where('student_id', Auth::user()->id)->first();
             if ($classroom_student) {
                 $announcements = $classroom->getAnnouncements();
+                $exams = $classroom->getExams()->take(5);
                 return $request->expectsJson() ? response()->json([
                     'classroom' => $classroom,
                     'announcements' => $announcements,
-                ])->setStatusCode(200) : view('classrooms.classroom_home', compact('classroom', 'announcements'));
+                    'exams' => $exams
+                ])->setStatusCode(200) : view('classrooms.classroom_home', compact('classroom', 'announcements', 'exams'));
             } else {
                 return $request->expectsJson() ? response()->json(['message' => 'You are not joined this classroom.'])->setStatusCode(401)
                     : redirect()->route('student_dashboard')->with('error', 'You are not joined this classroom.');
@@ -198,6 +204,62 @@ class UserController extends Controller
         }
     }
 
+    public function classroomAnnouncementcomments($slug, $id)
+    {
+        $classroom = Classroom::findBySlugOrFail($slug);
+        $announcement = Announcement::getAnnouncement($id, $classroom->id);
+        if (!$announcement) {
+            $status = 404;
+            $message = 'Announcement not found.';
+            return response()->json([
+                'status' => $status,
+                'message' => $message
+            ])->setStatusCode($status);
+        }
+        $comments = $announcement->getComments();
+        return view('classrooms.classroom_announcement_comments', compact('classroom', 'announcement', 'comments'));
+    }
+
+    public function classroomComment($slug, $id, Request $request)
+    {
+        $request->validate([
+            'text' => 'required|string|max:3000',
+        ]);
+        $classroom = Classroom::findBySlugOrFail($slug);
+        $announcement = Announcement::getAnnouncement($id, $classroom->id);
+        if (!$announcement) {
+            $status = 404;
+            $message = 'Announcement not found.';
+            return response()->json([
+                'status' => $status,
+                'message' => $message
+            ])->setStatusCode($status);
+        }
+        $comment = new Announcement_comment();
+        $comment->text = $request->text;
+        $comment->date_created = Carbon::now()->timezone('Africa/Cairo')->format('Y-m-d H:i:s');
+        $comment->announcement_id = $announcement->id;
+        $comment->author_id = Auth::user()->id;
+        $comment->author_role = 'student';
+        $success = $comment->save();
+        if ($success) {
+            $status = 200;
+            $message = 'Comment created successfully.';
+        } else {
+            $status = 500;
+            $message = 'Something went wrong.';
+        }
+        if ($request->expectsJson()) {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'comment' => $comment
+            ])->setStatusCode($status);
+        } else {
+            return redirect()->back()->with($status == 200 ? 'success' : 'error', $message)->setStatusCode($status);
+        }
+    }
+
     public function classroomStudents($slug, Request $request)
     {
         $classroom = Classroom::findBySlugOrFail($slug);
@@ -206,10 +268,12 @@ class UserController extends Controller
                 ->where('student_id', Auth::user()->id)->first();
             if ($classroom_student) {
                 $students = $classroom->getStudents();
+                $instructors = $classroom->getInstructors();
                 return $request->expectsJson() ? response()->json([
                     'classroom' => $classroom,
                     'students' => $students,
-                ])->setStatusCode(200) : view('classrooms.classroom_students', compact('classroom', 'students'));
+                    'instructors' => $instructors,
+                ])->setStatusCode(200) : view('classrooms.classroom_students', compact('classroom', 'students', 'instructors'));
             } else {
                 return $request->expectsJson() ? response()->json(['message' => 'You are not joined this classroom.'])->setStatusCode(401)
                     : redirect()->route('student_dashboard')->with('error', 'You are not joined this classroom.');
@@ -224,27 +288,20 @@ class UserController extends Controller
     {
         $user = null;
         $role = $request->role;
-        if(Auth::user()->id == $request->id && $role == 'student')
-        {
+        if (Auth::user()->id == $request->id && $role == 'student') {
             if ($request->expectsJson()) {
                 return response()->json([
                     'user' => Auth::user()
                 ]);
             }
             return redirect(route('student_profile'));
-        }
-        else
-        {
+        } else {
             $classroom = Classroom::findBySlugOrFail($request->slug);
-            if($request->role == 'student'){
+            if ($request->role == 'student') {
                 $user = Classroom_student::getStudent($classroom->id, $request->id);
-            }
-            else if($request->role == 'instructor')
-            {
+            } else if ($request->role == 'instructor') {
                 $user = Classroom_instructor::getInstructor($classroom->id, $request->id);
-            }
-            else if($request->role == 'admin')
-            {
+            } else if ($request->role == 'admin') {
                 $user = Admin::where('id', $request->id)->first();
             }
             if ($request->expectsJson()) {

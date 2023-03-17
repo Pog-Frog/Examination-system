@@ -21,4 +21,17 @@ class Announcement_comment extends Model
     {
         return $this->belongsTo(Announcement::class);
     }
+
+    public function comment_author()
+    {
+        if($this->author_role == 'student') {
+            return $this->belongsTo(User::class, 'author_id')->first();
+        }
+        elseif ($this->author_role == 'instructor') {
+            return $this->belongsTo(Instructor::class, 'author_id')->first();
+        }
+        else {
+            return null;
+        }
+    }
 }

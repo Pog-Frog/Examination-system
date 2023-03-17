@@ -22,7 +22,9 @@ return new class extends Migration
             $table->foreignId('type_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->references('id')->on('question_types');
             $table->string('grade');
             $table->foreignId('instructor_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->references('id')->on('instructors');
-            $table->string('status'); // 'public', 'private'
+            $table->string('status'); // 'true' => public or 'false' => private
+            $table->string('slug')->unique();
+            $table->foreignId('classroom_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->references('id')->on('classrooms');
             $table->timestamps();
         });
     }

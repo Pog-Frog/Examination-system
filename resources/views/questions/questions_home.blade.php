@@ -15,7 +15,7 @@
                         <div class="nav-item dropdown" style="padding-top: 0rem;"><a class="dropdown-toggle btn btn-success" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-plus"></i>Add New Question</a>
                                 <div class="dropdown-menu">
                                     @foreach($question_types as $question_type)
-                                            <a class="dropdown-item" href="{{route('instructor_questions.create', ['question_type' => $question_type->id, 'type_name' => $question_type->type_name])}}">{{$question_type->type_name}}</a>
+                                            <a class="dropdown-item" href="{{route('instructor_questions.create', ['question_type' => $question_type->id, 'type_name' => $question_type->type_name, 'slug' => $classroom->slug])}}">{{$question_type->type_name}}</a>
                                     @endforeach
                                 </div>
                             </div>
@@ -48,13 +48,9 @@
                                             <td>{{ $question->instructor_name }}</td>
                                             <td>{{ $question->type_name }}</td>
                                             <td>{{ $question->grade }}</td>
-
                                             @if($questions->count() > 0 && Auth::guard('instructor')->user()->id == $question->instructor_id)
-                                            <td><button type="button" class="btn btn-outline-primary" onclick="window.location.href='#'">Edit</button></td>
-                                            <form action="#" method="POST">
-                                                @csrf
-                                                <td><button type="submit" class="btn btn-danger">Delete</button></td>
-                                            </form>
+                                            <td><a href="{{ Route('instructor_questions.edit', ['question_slug' => $question->slug, 'slug' => $classroom->slug]) }}" class="btn btn-primary"><small>Edit</small></a></td>
+                                            <td><a href="{{ Route('instructor_questions.delete', ['question_slug' => $question->slug, 'slug' => $classroom->slug]) }}" class="btn btn-danger"><small>Delete</small></a></td>
                                             @endif
                                         </tr>
                                         @endforeach

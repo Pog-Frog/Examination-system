@@ -66,7 +66,8 @@ class InstructorAuthController extends Controller
         if($request->expectsJson()) {
             $model = Sanctum::$personalAccessTokenModel;
             $accessToken = $model::findToken($request->bearerToken());
-            $accessToken->delete();
+            if($accessToken != null)
+                $accessToken->delete();
             Auth::guard('instructor')->logout();
             return response()->json(['message' => 'Logged out']);
         }else{
@@ -116,6 +117,7 @@ class InstructorAuthController extends Controller
         if($request->expectsJson()){
             return response()->json(['message' => 'done', 'code' => 200]);
         }else{
+            Auth::guard('instructor')->logout();
             return redirect()->route('instructor_verify_email', ['email' => $user->email])->with('success', 'You have been registered successfully');
         }
     }

@@ -20,6 +20,7 @@
                     </svg>
                     <div class="card-body">
                         <p class="card-text">{{$classroom->info}}</p>
+                        <p class="card-text"><i class="fas fa-book"></i> Upcoming exams: {{$classroom->exams_count}}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a href="{{route('instructor_classrooms.show', $classroom->slug)}}" class="btn btn-sm btn-outline-secondary">View</a>

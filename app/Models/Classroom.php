@@ -68,9 +68,25 @@ class Classroom extends Model
         return $students;
     }
 
+    public function getInstructors()
+    {
+        $instructors = Classroom_instructor::join('instructors', 'classroom_instructors.instructor_id', '=', 'instructors.id')
+            ->where('classroom_instructors.classroom_id', $this->id)
+            ->select('instructors.*', 'classroom_instructors.date_joined')
+            ->get();
+
+        return $instructors;
+    }
+
     public function getExams()
     {
         $exams = Exam::where('classroom_id', $this->id)->get();
         return $exams;
+    }
+    
+    public function getInstructor($id)
+    {
+        $instructor = Classroom_instructor::where('classroom_id', $this->id)->where('instructor_id', $id)->first();
+        return $instructor;
     }
 }

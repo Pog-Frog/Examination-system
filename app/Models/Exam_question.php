@@ -23,4 +23,14 @@ class Exam_question extends Model
     {
         return $this->belongsTo(Question::class);
     }
+
+    public function getQuestionContext()
+    {
+        return $this->question->getQuestionContext();
+    }
+
+    public function getModelAnswers()
+    {
+        return $this->question->getModelAnswers();
+    }
 }

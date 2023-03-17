@@ -16,35 +16,48 @@
                         </div>
                     </div>
                 </div>
-                    <div class="row">
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <table id='exams-table'>
-                                        <thead>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id='exams-table'>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Duration</th>
+                                        <th scope="col">Total mark</th>
+                                        <th scope="col">Publish status</th>
+                                        <th scope="col">Max attempts</th>
+                                        <th scope="col">View</th>
+                                        <th scope="col">Publish</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($exams as $exam)
                                         <tr>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Duration</th>
-                                            <th scope="col">Total mark</th>
-                                            <th scope="col">Publish status</th>
-                                            <th scope="col">Max attempts</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach ($exams as $exam)
-                                            <tr>
+                                            <td>
+                                                <a class="nav-item nav-link" href="">{{ $exam->title }}</a>
+                                            </td>
+                                            <td>{{ $exam->duration }}</td>
+                                            <td>{{ $exam->total_mark }}</td>
+                                            <td>{{ $exam->publish_status }}</td>
+                                            <td>{{ $exam->max_attempts }}</td>
+                                            <td>
+                                                <a href="{{route('instructor_classrooms.exams.questions', ['slug' => $classroom->slug, 'exam_slug' => $exam->slug])}}" class="btn btn-primary">View</a>
+                                            </td>
+                                            @if($exam->publish_status == "false")
                                                 <td>
-                                                    <a class="nav-item nav-link" href="{{ Route('instructor_get_exam', ['id' => $exam->id, 'slug' => $classroom->slug , 'role'=> 'student' ])}}">{{ $exam->title }}</a>
+                                                    <a href="{{route('instructor_classrooms.exams.publish', ['slug' => $classroom->slug, 'exam_slug' => $exam->slug])}}" class="btn btn-success">Publish</a>
                                                 </td>
-                                                <td>{{ $exam->duration }}</td>
-                                                <td>{{ $exam->total_mark }}</td>
-                                                <td>{{ $exam->publish_status }}</td>
-                                                <td>{{ $exam->max_attempts }}</td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            @else
+                                                <td>
+                                                    Exam is published
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

@@ -24,8 +24,9 @@
                 @endauth
                 @auth('instructor')
                     <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_dashboard') }}">My classrooms</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_questions') }}">Question Bank</a></li>
+
                     @if(Request::is('instructor/classrooms/*') && !Request::is('instructor/classrooms/create') && !Request::is('instructor/classrooms/*/edit'))
+                    <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_questions', $classroom->slug) }}">Question Bank</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_classrooms.show', $classroom->slug) }}">{{ $classroom->name }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_classrooms.students', $classroom->slug) }}">People</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ Route('instructor_classrooms.exams', $classroom->slug) }}">Exams</a></li>

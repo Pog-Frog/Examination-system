@@ -2,114 +2,187 @@
 
 @section('title', 'Quizzix')
 
+<link rel="stylesheet" href="{{asset('css/style.css')}}">
+<link rel="stylesheet" href="{{asset('css/aos.css')}}">
+<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{asset('css/bootstrap-icons.css')}}">
+<link rel="stylesheet" href="{{asset('css/boxicons.min.css')}}">
+<link rel="stylesheet" href="{{asset('css/glightbox.min.css')}}">
+<link rel="stylesheet" href="{{asset('css/remixicon.css')}}">
+<link rel="stylesheet" href="{{asset('css/swiper-bundle.min.css')}}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
 @section('content')
-    <main class="page landing-page">
-        <section class="clean-block clean-hero" style="background-image:url({{url('img/tech/image4.jpg')}}); color:rgba(128, 128 ,128, 0.85);">
-            <div class="text">
-                <h2>Lorem ipsum dolor sit amet.</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p><button class="btn btn-outline-light btn-lg" type="button">Learn More</button>
+<main>
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center justify-content-center">
+    <div class="container" data-aos="fade-up">
+
+      <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
+        <div class="col-xl-6 col-lg-8">
+          <h1>Powerful Online Examination System With Less Cheating<span>.</span></h1>
+          <h2>We Introduce To You An Environment Full Of Trust</h2>
+        </div>
+      </div>
+
+      <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
+        <div class="col-xl-2 col-md-4">
+          <div class="icon-box">
+            <i class="bi bi-person-circle"></i>
+            <h3><a href="">Are You A Teacher?</a></h3>
+          </div>
+        </div>
+        <div class="col-xl-2 col-md-4">
+          <div class="icon-box">
+            <i class="bi bi-mortarboard-fill"></i>
+            <h3><a href="">Are You A Student?</a></h3>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
+            <img src="{{asset('img/face.png')}}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
+            <h3>About The System.</h3>
+            <p >
+              Providing a trusted atmosphere for examination whether you are a teacher or a student.
+            </p>
+
+            <p>
+              We believe that the future is digital, hence introducing this smart system helping you to safely take your
+              exams in an environment as comfortable as your own room.
+            </p>
+              <p>
+              Our dear teachers, the effort you do during classes is already much so, please, let Quizzix do the rest for you.
+            </p>
+            <div class="col col-md-3">
+            <a href="" class="button-88">Read More </a>
             </div>
-        </section>
-        <section class="clean-block clean-info dark">
-            <div class="container">
-                <div class="block-heading">
-                    <h2 class="text-info">Info</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-md-6"><img class="img-thumbnail" src="{{asset('img/scenery/image5.jpg')}}"></div>
-                    <div class="col-md-6">
-                        <h3>Lorem impsum dolor sit amet</h3>
-                        <div class="getting-started-info">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        </div><button class="btn btn-outline-primary btn-lg" type="button">Join Now</button>
-                    </div>
-                </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+
+
+    <!-- ======= Features Section ======= -->
+    <section id="features" class="features">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="image col-lg-6" style='background-image: url("../img/think.jpg");' data-aos="fade-right"></div>
+          <div class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
+            <div class="icon-box mt-5 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bi bi-alarm"></i>
+              <h4>It Is Exam Time</h4>
+              <p>No need to worry about forgetting your exams dates. Quizzix will notify you.</p>
             </div>
-        </section>
-        <section class="clean-block features" id="features">
-            <div class="container">
-                <div class="block-heading">
-                    <h2 class="text-info">Features</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-md-5 feature-box"><i class="icon-star icon"></i>
-                        <h4>Bootstrap 5</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                    </div>
-                    <div class="col-md-5 feature-box"><i class="icon-pencil icon"></i>
-                        <h4>Customizable</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                    </div>
-                    <div class="col-md-5 feature-box"><i class="icon-screen-smartphone icon"></i>
-                        <h4>Responsive</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                    </div>
-                    <div class="col-md-5 feature-box"><i class="icon-refresh icon"></i>
-                        <h4>All Browser Compatibility</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                    </div>
-                </div>
+            <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bi bi-send-check"></i>
+              <h4>What are my colleagues up to ? </h4>
+              <p>Communicate With Your colleagues, share your thoughts in the timeline and recieve their opinions about it</p>
             </div>
-        </section>
-        <section class="clean-block slider dark">
-            <div class="container">
-                <div class="block-heading">
-                    <h2 class="text-info">Slider</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                </div>
-                <div class="carousel slide" data-bs-ride="carousel" id="carousel-1">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active"><img class="w-100 d-block" src="{{asset('img/scenery/image1.jpg')}}" alt="Slide Image"></div>
-                        <div class="carousel-item"><img class="w-100 d-block" src="{{asset('img/scenery/image4.jpg')}}" alt="Slide Image"></div>
-                        <div class="carousel-item"><img class="w-100 d-block" src="{{asset('img/scenery/image6.jpg')}}" alt="Slide Image"></div>
-                    </div>
-                    <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></a></div>
-                    <ol class="carousel-indicators">
-                        <li data-bs-target="#carousel-1" data-bs-slide-to="0" class="active"></li>
-                        <li data-bs-target="#carousel-1" data-bs-slide-to="1"></li>
-                        <li data-bs-target="#carousel-1" data-bs-slide-to="2"></li>
-                    </ol>
-                </div>
+            <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bi bi-cloud-lightning"></i>
+              <h4>What is in my teacher`s mind?</h4>
+              <p>Stay in touch with your class teacher with Quizzix for any updates or announcements</p>
             </div>
-        </section>
-        <section class="clean-block about-us" id="aboutus">
-            <div class="container">
-                <div class="block-heading">
-                    <h2 class="text-info">About Us</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card text-center clean-card"><img class="card-img-top w-100 d-block" src="{{asset('img/avatars/avatar1.jpg')}}">
-                            <div class="card-body info">
-                                <h4 class="card-title">John Smith</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card text-center clean-card"><img class="card-img-top w-100 d-block" src="{{asset('img/avatars/avatar2.jpg')}}">
-                            <div class="card-body info">
-                                <h4 class="card-title">Robert Downturn</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card text-center clean-card"><img class="card-img-top w-100 d-block" src="{{asset('img/avatars/avatar3.jpg')}}">
-                            <div class="card-body info">
-                                <h4 class="card-title">Ally Sanders</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+              <i class="bi bi-card-checklist"></i>
+              <h4>View Your exams results and review it with correct answers</h4>
+
             </div>
-        </section>
-    </main>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Features Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Features</h2>
+          <p>Check our Features</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-person-bounding-box"></i></div>
+              <h4><a href="">Face Recognition</a></h4>
+              <p>Only enrolled students may take exams</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-pencil-square"></i></div>
+              <h4><a href="">plagiarism checking</a></h4>
+              <p>Make sure it is the student`s own answer</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-shield-check"></i></div>
+              <h4><a href="">Auto Grading</a></h4>
+              <p>Save time
+                and allow Quizzix to grade exams</p>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Cta Section ======= -->
+    <section id="cta" class="cta">
+      <div class="container" data-aos="zoom-in">
+
+        <div class="text-center">
+          <h3>Need More Information</h3>
+          <p> We Are Here To Answer All Your Questions.</p>
+          <a class="cta-btn" href="{{ Route('contactUs') }}">Contact Us</a>
+        </div>
+
+      </div>
+    </section><!-- End Cta Section -->
+
+
+
+</main>
 @endsection
+
+<!-- Vendor JS Files -->
+  <script src="{{URL::asset('js/purecounter_vanilla.js')}}"></script>
+  <script src="{{URL::asset('js/aos.js')}}"></script>
+  <script src="{{URL::asset('js/bundle.min.js')}}"></script>
+  <script src="{{URL::asset('js/glightbox.min.js')}}"></script>
+  <script src="{{URL::asset('js/isotope.pkgd.min.js')}}"></script>
+  <script src="{{URL::asset('js/swiper-bundle.min.js')}}"></script>
+  <script src="{{URL::asset('js/validate.js')}}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{URL::asset('js/main.js')}}"></script>
+

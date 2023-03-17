@@ -235,3 +235,46 @@
 .contant_box_404 {
     margin-top: -50px;
 }
+
+
+.jumbotron{
+    margin-top: 4rem;
+    margin-left: 4rem;
+    margin-right: 5rem;
+    background-color: #6c757d;
+    border-radius: 25px;
+    height:40%;
+    background-image: url();
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: contain;
+    background-position: right;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+.display-4{
+    -webkit-text-fill-color: white;
+    margin-left: 5%;
+    padding: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+
+
+}
+.lead{
+    -webkit-text-fill-color: white;
+    margin-left: 5%;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+.list-group{
+    margin-top: 3rem;
+    width: 20% ; 
+    margin-left: 4rem;
+
+}
+
+.mb-3 {
+    margin-top: 6rem;
+}

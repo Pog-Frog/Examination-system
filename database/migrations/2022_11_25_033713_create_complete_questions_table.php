@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('blank_id');
             $table->string('blank_answer');
             $table->string('is_case_sensitive'); // 'true', 'false'
-            $table->string('grade');
+            $table->string('grade')->nullable();
             $table->timestamps();
         });
     }
