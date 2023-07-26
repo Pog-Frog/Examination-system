@@ -1,0 +1,5 @@
+
+.clean-block clean-hero{
+    background-image:url('img/wall.jpg');
+    background-color:rgba(128, 128 ,128, 0.5);
+}

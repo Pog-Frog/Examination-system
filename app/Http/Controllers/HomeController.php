@@ -15,7 +15,12 @@ class HomeController extends Controller
         return view('index');
     }
 
-    public function contactUs(Request $request)
+    public function contactUs()
+    {
+        return view('contact_us');
+    }   
+
+    public function contactUsPost(Request $request)
     {
         $request->validate([
             'name' => 'required|string',
@@ -38,6 +43,20 @@ class HomeController extends Controller
             Mail::to($admin->email)->send(new AdminEmail($details, $subject));
         }
 
-        return redirect()->back()->withSuccess('Request send Successfully');
+        if($request->expectsJson()){
+            return response()->json(['message' => 'Your message has been sent successfully.']);
+        }else{
+            return redirect()->back()->withSuccess('Your message has been sent successfully');
+        }
+    }
+
+      public function iamteacher(Request $req){
+
+        return view('are_you_teacher');
+    }
+
+    public function iamstudent(Request $req){
+
+        return view('are_you_student');
     }
 }

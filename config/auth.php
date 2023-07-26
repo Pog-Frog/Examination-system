@@ -79,11 +79,11 @@ return [
         ],
         'admins' => [
             'driver' => 'eloquent',
-            'model' => App\Admin::class,
+            'model' => App\Models\Admin::class,
         ],
         'instructors' => [
             'driver' => 'eloquent',
-            'model' => App\Instructor::class,
+            'model' => App\Models\Instructor::class,
         ],
 
         // 'users' => [
@@ -111,20 +111,18 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
+            'expire' => 15,
         ],
         'admins' => [
             'provider' => 'admins',
             'table' => 'password_resets',
-            'expire' => 60,
+            'expire' => 15,
             'throttle' => 60,
         ],
         'instructors' => [
             'provider' => 'instructors',
             'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
+            'expire' => 15,
         ],
     ],
 
