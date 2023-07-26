@@ -136,7 +136,12 @@
                             <form action="{{ Route('instructor_classrooms.exams.delete', ['slug' => $classroom->slug, 'exam_slug' => $exam->slug]) }}" method="POST">
                                 @csrf
                                 <button class="btn btn-danger mt-2" type="submit"><small>Delete exam</small></button>
+                            
+                              
+                                                   
                             </form>
+
+                           <a href = "{{ Route('instructor_classrooms.show', ['slug' => $classroom->slug]) }}"> <button class="btn btn-success mt-2" type="submit"><small>Done Exam</small></button></a>
                         </div>
                     </div>
                 </div>

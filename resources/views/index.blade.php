@@ -33,13 +33,13 @@
         <div class="col-xl-2 col-md-4">
           <div class="icon-box">
             <i class="bi bi-person-circle"></i>
-            <h3><a href="">Are You A Teacher?</a></h3>
+            <h3><a href="{{ Route('iamteacher')}}">Are You A Teacher?</a></h3>
           </div>
         </div>
         <div class="col-xl-2 col-md-4">
           <div class="icon-box">
             <i class="bi bi-mortarboard-fill"></i>
-            <h3><a href="">Are You A Student?</a></h3>
+            <h3><a href="{{ Route('iamstudent')}}">Are You A Student?</a></h3>
           </div>
         </div>
 

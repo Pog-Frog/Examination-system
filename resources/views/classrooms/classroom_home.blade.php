@@ -26,8 +26,25 @@
                                         <ul class="list-group">
                                             @if($exams->count() > 0)
                                                 @foreach($exams as $exam)
-                                                    <li class="list-group-item">{{ $exam->title }}<br/> Due
-                                                        date: {{$exam->start_date}}</li>
+                                                    @php
+                                                        $startDateTime = \Carbon\Carbon::parse($exam->start_date, 'Africa/Cairo');
+                                                        $endDateTime = \Carbon\Carbon::parse($exam->end_date, 'Africa/Cairo');
+                                                        $nowDateTime = \Carbon\Carbon::now('Africa/Cairo');
+                                                        $nowDateTime->addHour();//عشان التوقيت الصيفى
+                                                        $diffInMinutes = $nowDateTime->diffInMinutes($startDateTime);
+                                                        $isLessThan24Hours = $startDateTime->diffInHours($nowDateTime) < 24;
+                                                        $isInPast = $nowDateTime->greaterThan($endDateTime);
+                                                        $isExamStarted = $nowDateTime->greaterThanOrEqualTo($startDateTime) && $nowDateTime->lessThanOrEqualTo($endDateTime);
+                                                    @endphp
+                                                    @if(!$isInPast)
+                                                        @if($isExamStarted)
+                                                            <li class="list-group-item"><strong>{{ $exam->title }}</strong><br/>Started {{ $nowDateTime->diffForHumans($startDateTime, ['parts' => 1, 'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE]) }} ago.<br/><span style="color: red;">Time left: {{ $endDateTime->diffForHumans($nowDateTime, ['parts' => 1, 'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}.</span></li>
+                                                        @elseif($isLessThan24Hours)
+                                                            <li class="list-group-item"><strong>{{ $exam->title }}</strong><br/>Starts in {{ $startDateTime->diffForHumans($nowDateTime, ['parts' => 2, 'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}.</li>
+                                                        @else
+                                                            <li class="list-group-item"><strong>{{ $exam->title }}</strong><br/>{{ \Carbon\Carbon::parse($exam->start_date)->format('Y F j \a\t g:i a') }}</li>  
+                                                        @endif
+                                                    @endif
                                                 @endforeach
                                             @else
                                                 <li class="list-group-item">No work</li>
@@ -179,8 +196,26 @@
                                         <ul class="list-group">
                                             @if($exams->count() > 0)
                                                 @foreach($exams as $exam)
-                                                    <li class="list-group-item">{{ $exam->title }}<br/> Due
-                                                        date: {{$exam->start_date}}</li>
+                                                    @php
+                                                        $startDateTime = \Carbon\Carbon::parse($exam->start_date, 'Africa/Cairo');
+                                                        $endDateTime = \Carbon\Carbon::parse($exam->end_date, 'Africa/Cairo');
+                                                        $nowDateTime = \Carbon\Carbon::now('Africa/Cairo');
+                                                        $nowDateTime->addHour();//عشان التوقيت الصيفى
+                                                        $diffInMinutes = $nowDateTime->diffInMinutes($startDateTime);
+                                                        $isLessThan24Hours = $startDateTime->diffInHours($nowDateTime) < 24;
+                                                        $isInPast = $nowDateTime->greaterThan($endDateTime);
+                                                        $isExamStarted = $nowDateTime->greaterThanOrEqualTo($startDateTime) && $nowDateTime->lessThanOrEqualTo($endDateTime);
+                                                    @endphp
+                                                    @if(!$isInPast)
+                                                        @if($isExamStarted)
+                                                            <li class="list-group-item"><strong>{{ $exam->title }}</strong><br/>Started {{ $nowDateTime->diffForHumans($startDateTime, ['parts' => 1, 'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE]) }} ago.<br/><span style="color: red;">Time left: {{ $endDateTime->diffForHumans($nowDateTime, ['parts' => 1, 'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}.</span></li>
+                                                            <a class="list-group-item" href="{{ route('student_classroom.take-exam', ['slug' => $classroom->slug,'exam_id' => $exam->id]) }}" style="color: #0d6efd;">Start exam</a>
+                                                        @elseif($isLessThan24Hours)
+                                                            <li class="list-group-item"><strong>{{ $exam->title }}</strong><br/>Starts in {{ $startDateTime->diffForHumans($nowDateTime, ['parts' => 2, 'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}.</li>
+                                                        @else
+                                                            <li class="list-group-item"><strong>{{ $exam->title }}</strong><br/>{{ \Carbon\Carbon::parse($exam->start_date)->format('Y F j \a\t g:i a') }}</li>  
+                                                        @endif
+                                                    @endif
                                                 @endforeach
                                             @else
                                                 <li class="list-group-item">No work</li>

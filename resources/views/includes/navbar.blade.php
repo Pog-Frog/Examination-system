@@ -7,8 +7,7 @@
                     @if(Request::is('student/classrooms/*') && !Request::is('student/classrooms/join') && !Request::is('student/classrooms/leave'))
                     <li class="nav-item"><a class="nav-link" href="{{ Route('student_classroom.show', $classroom->slug) }}">{{ $classroom->name }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ Route('student_classrooms.students', $classroom->slug) }}">People</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Exams</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">My Results</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ Route('student_classroom.showResults', $classroom->slug) }}">My Results</a></li>
                     @endif
                     <li class="nav-item"><a class="nav-link" href="{{ Route('student_logout') }}">Logout</a></li>
                     @if (Auth::user()->photo == null)

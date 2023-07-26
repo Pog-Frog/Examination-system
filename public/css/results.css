@@ -1,0 +1,102 @@
+/* CSS code for results.html */
+
+body {
+    background-color: #f4f4f4;
+}
+
+.results-container {
+    max-width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+}
+
+.results-container h1 {
+    font-size: 24px;
+    margin-bottom: 12px;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.results-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.results-container th, .results-container td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.results-container th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+.results-container td.grade {
+    font-weight: 520;
+    color: #c40202;
+}
+
+
+.card td:first-child {
+    max-width: 300px;
+    text-overflow: ellipsis;
+}
+
+.results-container td:last-child {
+    justify-content: center;
+    align-items: center;
+    margin-right: 0px;
+    
+}
+.results-container th:last-child {
+    
+    padding-left: 50px;
+}
+
+
+.card {
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.card th, .card td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.card th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    word-wrap: break-word;
+    }
+    
+    
+.card button {
+    padding: 8px 12px;
+    background-color: #333333;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+    
+.card button:hover {
+    background-color: black;
+}
+    

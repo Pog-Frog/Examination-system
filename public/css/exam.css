@@ -1,0 +1,238 @@
+/* Style the exam form */
+form {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	max-width: 900px;
+  }
+  
+  
+  /* Style the timer */
+  #timer {
+  font-family: Arial, sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 24px;
+	font-weight: bold;
+	color: #fff;
+	background-color: #333;
+	padding: 1rem;
+	border-radius: 10px;
+	margin-top: 2.2rem;
+	position: absolute;
+	margin-right: 50px;
+  	top: 0;
+  	right: 0;
+  }
+  
+#timer span {
+	margin: 0 0.5rem;
+  }
+  
+
+  
+  
+  
+  /* Style the input fields */
+  input[type="radio"],
+  input[type="checkbox"] {
+	margin-right: 10px;
+  }
+
+  
+  input[type="text"],
+  textarea {
+    display: block;
+    width: 850px;
+    padding: 15px;
+    background-color: #f5f7fa;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,0);
+    border-radius: 0.125rem;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-family: inherit;
+    font-size: .900rem;
+    resize: vertical;
+  }
+  
+  input[type="text"]:not(textarea) {
+    max-height: 40px; /* Set min height for input[type="text"] */
+  }
+  
+  textarea {
+    min-height: 75px; /* Set min height for textarea */
+    max-height: 200px;
+  }
+  
+  input[type="text"]:focus,
+  textarea:focus {
+	outline: none;
+	border-bottom: 1px solid black;
+
+  }
+  
+  
+  .body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+  }
+  
+  .examcontainer {
+  max-width: 900px;
+  position: relative;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 1px 1px 90px rgba(0, 0, 0, 0.1);
+  }
+
+  .examheader {
+  
+  height: 70px;
+  border: 1px  #ccc;
+  border-radius: 25px;
+  padding: 10px;
+  }
+
+  .examh1{display: block;
+    font-size: 1.75em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;}
+
+    
+  .important {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    background-color: #fde3b9;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 0 auto;
+  }
+  
+  .important h3 {
+    font-size: 24px;
+    margin-top: 0;
+    font-family: Arial, sans-serif;
+
+  }
+  h3 {
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+
+  }
+  
+  .important ul {
+    list-style: disc;
+    margin: 10px 0;
+    padding-left: 20px;
+  }
+  
+  .important ul li {
+    margin-bottom: 5px;
+  }
+  
+  /* Add some spacing to the top and bottom */
+  main {
+	padding: 20px;
+	margin-top: 60px;
+  }
+  
+  label {
+	display: block;
+	background-color: #f5f5f5;
+	padding: 8px;
+	max-width: 900px;
+	border-radius: 7px;
+	margin-bottom: -20px;
+	cursor: pointer;
+  }
+  label:hover {
+	background-color: #e0e0e0;
+	
+  }
+  label input[type="radio"]:checked:before {
+	content: '';
+	display: inline-block;
+	width: 13px;
+	height: 13px;
+	border-radius: 50%;
+	margin-right: 10px;
+  margin-bottom: 5.5px;
+	background-color: black;
+	
+  }
+  .question p {
+	font-family: Verdana, sans-serif;
+	font-weight: bold;
+  }
+  h2 {
+	font-family: "Times New Roman", Times, serif;
+	text-align: center;
+	color:red;
+	background-color: #e8e7e7;
+  	border: 1px  #ccc;
+  	
+	padding-bottom: 10px;
+	padding-top: 10px;
+  }
+  h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+  .submit button {
+	background-color: black; 
+	color: white; 
+	padding: 10px 20px; 
+	border: none; 
+	cursor: pointer; 
+	font-size: 16px; 
+  }
+  
+  .submit button:hover {
+	background-color: #333333;
+  }
+  
+  .animated-text {
+	font-size: 25px;
+	font-weight: bold;
+	text-align: center;
+	animation-name: bounce;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+  }
+  
+  @keyframes bounce {
+	0% { transform: translateY(0); }
+	50% { transform: translateY(-10px); }
+	100% { transform: translateY(0); }
+  }
+
+  .small-space {
+    display: block;
+    height: 2em; 
+    content: "";
+}
+
+.question-grade {
+  font-size: 15px;
+  font-weight: lighter;
+  float: right;
+}

@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
+
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
@@ -24,6 +25,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('delete:personal-access-tokens')->everyMinute()->timezone('Africa/Cairo');
 
         $schedule->command('delete:profile-pics')->everyMinute()->timezone('Africa/Cairo');
+
     }
 
     /**

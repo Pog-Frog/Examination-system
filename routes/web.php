@@ -23,6 +23,8 @@ use App\Http\Controllers\InstructorController;
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/ContactUs', [HomeController::class, 'contactUs'])->name('contactUs');
 Route::post('/ContactUs', [HomeController::class, 'contactUsPost'])->name('contactUs.post');
+Route::get('/iamteacher', [HomeController::class, 'iamteacher'])->name('iamteacher');
+Route::get('/iamstudent', [HomeController::class, 'iamstudent'])->name('iamstudent');
 
 //---------------------------------Student-----------------------------------//
 //--public
@@ -45,6 +47,7 @@ Route::prefix('student')->group(function () {
 Route::prefix('student')->group(function () {
     Route::get('/logout', [UserAuthController::class, 'logout'])->name('student_logout');
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('student_dashboard');
+    Route::get('/get_profile_image', [UserController::class, 'getProfileImage'])->name('student_get_profile_image');
     Route::prefix('/profile')->group(function () {
         Route::get('/', [UserController::class, 'profile'])->name('student_profile');
         Route::get('/edit', [UserController::class, 'profileEdit'])->name('student_profile.edit');
@@ -56,6 +59,11 @@ Route::prefix('student')->group(function () {
         Route::get('/{slug}/leave', [UserController::class, 'classroomLeave'])->name('student_classroom.leave');
         Route::prefix('/{slug}')->group(function () {
             Route::get('/', [UserController::class, 'classroomShow'])->name('student_classroom.show');
+            Route::get('/results', [UserController::class, 'showResults'])->name('student_classroom.showResults');
+            Route::get('/results/{exam_id}', [UserController::class, 'viewSubmission'])->name('student_classroom.viewSubmission');
+            Route::get('/exam/{exam_id}/verify-image', [UserController::class, 'showVerifyImagePage'])->name('student_classroom.verify-image');
+            Route::get('/exam/{exam_id}', [UserController::class, 'takeExam'])->name('student_classroom.take-exam');
+            Route::post('/exam/{exam_id}/submit', [UserController::class, 'submitExam'])->name('student_classroom.submit-exam');
             Route::post('/announce', [UserController::class, 'classroomAnnounce'])->name('student_classroom.announce');
             Route::get('/announcement_comments/{id}', [UserController::class, 'classroomAnnouncementcomments'])->name('student_classroom.announcements.comments');
             Route::post('/comment/{id}', [UserController::class, 'classroomComment'])->name('student_classroom.comment');
@@ -111,6 +119,7 @@ Route::prefix('instructor')->group(function () {
             Route::prefix('/students')->group(function () {
                 Route::get('/', [InstructorController::class, 'classroomStudents'])->name('instructor_classrooms.students');
                 Route::post('/delete', [InstructorController::class, 'classroomStudentsDelete'])->name('instructor_classrooms.students.delete');
+                Route::post('/cheat/{student_slug}', [InstructorController::class, 'classroomStudentsCheat'])->name('instructor_classrooms.students.cheat');
                 Route::get('/{student_slug}', [InstructorController::class, 'classroomStudentsShow'])->name('instructor_classrooms.students.show');
             });
             Route::prefix('/questions')->group(function () {
@@ -134,6 +143,7 @@ Route::prefix('instructor')->group(function () {
                     Route::get('/add', [InstructorController::class, 'classroomExamsQuestionsAdd'])->name('instructor_classrooms.exams.questions.add');
                     Route::post('/add', [InstructorController::class, 'classroomExamsQuestionsAddPost'])->name('instructor_classrooms.exams.questions.add.post');
                     Route::post('/delete', [InstructorController::class, 'classroomExamsQuestionsDelete'])->name('instructor_classrooms.exams.questions.delete');
+
                 });
             });
         });

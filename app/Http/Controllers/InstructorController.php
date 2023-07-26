@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Admin;
 use App\Models\Announcement;
 use App\Models\Announcement_author;
@@ -9,9 +10,11 @@ use App\Models\Announcement_comment;
 use App\Models\Classroom_instructor;
 use App\Models\Classroom_student;
 use App\Models\Complete_question;
+use App\Models\Cheating_attempts;
 use App\Models\Essay_question;
 use App\Models\Exam_option;
 use App\Models\Exam_question;
+use App\Models\Exam_result;
 use App\Models\Instructor;
 use App\Models\Classroom;
 use App\Models\Mcq_question;
@@ -114,7 +117,7 @@ class InstructorController extends Controller
             ->select('classrooms.*')
             ->get();
         foreach ($classrooms as $classroom) {
-            $classroom->exams_count = $classroom->getExams()->count();
+            $classroom->exams_count = $classroom->getExams()->where('end_date', '>', Carbon::now('Africa/Cairo')->addHour())->count();
         }
         if ($request->expectsJson()) {
             return response()->json([
@@ -494,6 +497,71 @@ class InstructorController extends Controller
         } else {
             return redirect()->back()->with($status == 200 ? 'success' : 'error', $message)->setStatusCode($status);
         }
+    }
+
+
+        public function classroomStudentsCheat($slug, $student_slug, Request $request)
+    {
+        $classroom = Classroom::findBySlugOrFail($slug);
+        $std = User::findBySlugOrFail($student_slug);
+        
+        $classroom_instructor = Classroom_instructor::where('classroom_id', $classroom->id)
+            ->where('instructor_id', Auth::guard('instructor')->user()->id)
+            ->first();
+        if (!$classroom_instructor) {
+            $status = 401;
+            $message = 'Unauthorized to delete students for this classroom.';
+            return response()->json([
+                'status' => $status,
+                'message' => $message
+            ])->setStatusCode($status);
+        }
+        $student = Classroom_student::where('classroom_id', $classroom->id)
+            ->where('student_id', $std->id)
+            ->first();
+        if (!$student) {
+            $status = 404;
+            $message = 'Student not found.';
+            return response()->json([
+                'status' => $status,
+                'message' => $message
+            ])->setStatusCode($status);
+        }
+
+       $whocheat = DB::table('exam_results')
+       ->join('classroom_students', 'exam_results.classroom_student_id', '=', 'classroom_students.id' )
+       ->where('classroom_students.student_id', '=', $student->id )
+       ->first();
+
+       if(!$whocheat)
+       {
+        $message = 'No Cheating Attempts.';
+        return redirect()->back()->with('error', $message);
+        }       
+
+       else{
+
+        $studentt = DB::table('users')
+       ->join('classroom_students', 'users.id', '=', 'classroom_students.student_id' )
+       ->where('classroom_students.student_id', '=', $student->id )
+       ->first();
+
+      $exam = DB::table('exam_results')
+       ->join('exams', 'exam_results.exam_id', '=', 'exams.id' )
+       ->first();
+
+       $cheating_attempts = Exam_result::where('classroom_student_id', '=', $whocheat->id)
+       ->where('exam_id', '=', $exam->id)
+       ->first();
+
+       
+        
+        return view('classrooms.student_cheat', compact('studentt', 'exam', 'cheating_attempts', 'classroom'));
+
+
+       }
+
+       
     }
 
     public function questions($slug, Request $request)
@@ -1251,6 +1319,18 @@ class InstructorController extends Controller
         }
     }
 
+    public function getTotalMarksForExam($examId)
+    {
+        $examQuestions = Exam_question::where('exam_id', $examId)->get();
+
+        $totalMarks = 0;
+        foreach ($examQuestions as $examQuestion) {
+            $totalMarks += $examQuestion->question->grade;
+        }
+
+        return $totalMarks;
+    }
+
     public function classroomExamsCreatePost($slug, Request $request)
     {
         if ($request->has('options_done')) {
@@ -1614,8 +1694,12 @@ class InstructorController extends Controller
                 }
             }
         }
+        $exam->total_mark = $this->getTotalMarksForExam($exam->id);
+        $exam->save();
         $status = 200;
         $message = 'Questions added successfully.';
         return redirect()->route('instructor_classrooms.exams.questions', ['slug' => $classroom->slug, 'exam_slug' => $exam->slug])->with('success', $message)->setStatusCode($status);
     }
+
+
 }

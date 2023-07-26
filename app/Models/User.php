@@ -10,9 +10,12 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\UserResetPassword;
 use App\Notifications\UserVerifyEmail;
 use App\Models\Email_verfication;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
+    use Sluggable;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -30,6 +33,32 @@ class User extends Authenticatable
         'degree',
         'institute',
     ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name',
+                'onUpdate' => function ($model) {
+                    return $model->isDirty('name');
+                },
+                'method' => function ($string, $separator) {
+                    return Str::random(10);
+                },
+                'unique' => true,
+                'slugEngineOptions' => [
+                    'regexp' => '/([^A-Za-z0-9]|-)+/',
+                    'separator' => '-',
+                ],
+
+            ]
+        ];
+    }
+
+     public static function findBySlugOrFail($slug)
+    {
+        return static::where('slug', $slug)->firstOrFail();
+    }
 
     /**
      * The attributes that should be hidden for serialization.

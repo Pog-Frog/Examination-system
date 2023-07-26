@@ -49,4 +49,14 @@ class HomeController extends Controller
             return redirect()->back()->withSuccess('Your message has been sent successfully');
         }
     }
+
+      public function iamteacher(Request $req){
+
+        return view('are_you_teacher');
+    }
+
+    public function iamstudent(Request $req){
+
+        return view('are_you_student');
+    }
 }

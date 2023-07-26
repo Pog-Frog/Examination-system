@@ -26,6 +26,7 @@
                                         <th scope="col">Joined</th>
                                         @auth('instructor')
                                         <th scope="col">View grades</th>
+                                        <th scope="col">View Cheating Attempts</th>
                                         <th scope="col">Remove</th>
                                         @endauth
                                     </tr>
@@ -51,7 +52,12 @@
                                                     @csrf
                                                     <td><button type="submit" class="btn btn-outline-primary">View grades</button></td>
                                                 </form>
-                                                <form action="{{ Route('instructor_classrooms.students.delete', ['student_id' => $student->id, 'slug' => $classroom->slug]) }}" method="POST">
+
+                                                 <form action="{{ Route('instructor_classrooms.students.cheat', ['slug' => $classroom->slug, 'student_slug' => $student->slug]) }}" method="POST">
+                                                    @csrf
+                                                    <td><button type="submit" class="btn btn-outline-primary">Cheating attempts</button></td>
+                                                </form>
+                                                <form action="{{ Route('instructor_classrooms.students.delete', ['student_id' => $student->id, 'slug' => $classroom->slug, 'student_slug' => $student->slug ]) }}" method="POST">
                                                     @csrf
                                                     <td><button type="submit" class="btn btn-danger">Remove</button></td>
                                                 </form>
